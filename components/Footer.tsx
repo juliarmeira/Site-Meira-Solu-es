@@ -1,12 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { LogoMeira } from './ui/Icons';
-import { ViewState } from '../types';
 
-interface FooterProps {
-    setCurrentView: (view: ViewState) => void;
-}
-
-const Footer: React.FC<FooterProps> = ({ setCurrentView }) => {
+const Footer: React.FC = () => {
     return (
         <footer className="py-24 border-t border-white/10 px-6 mt-40 bg-black/50">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-16">
@@ -21,10 +17,10 @@ const Footer: React.FC<FooterProps> = ({ setCurrentView }) => {
                     </p>
                 </div>
                 <div className="flex gap-12 text-white/50 text-[11px] font-black uppercase tracking-widest">
-                    <button onClick={() => setCurrentView('HOME')} className="hover:text-meira-accent transition-colors">INÍCIO</button>
-                    <button onClick={() => setCurrentView('SERVICOS')} className="hover:text-meira-accent transition-colors">SERVIÇOS</button>
-                    <button onClick={() => setCurrentView('MATERIAIS')} className="hover:text-meira-accent transition-colors">MATERIAIS</button>
-                    <button onClick={() => setCurrentView('CONTATO')} className="hover:text-meira-accent transition-colors">CONTATO</button>
+                    <Link to="/" className="hover:text-meira-accent transition-colors">INÍCIO</Link>
+                    <Link to="/servicos" className="hover:text-meira-accent transition-colors">SERVIÇOS</Link>
+                    <Link to="/materiais" className="hover:text-meira-accent transition-colors">MATERIAIS</Link>
+                    <Link to="/contato" className="hover:text-meira-accent transition-colors">CONTATO</Link>
                 </div>
             </div>
         </footer>

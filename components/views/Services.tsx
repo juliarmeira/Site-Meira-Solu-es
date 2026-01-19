@@ -1,19 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
     ArrowUpRight,
     CheckCircle2,
     ChevronDown
 } from 'lucide-react';
 import { servicesData } from "../../data/constants";
-import { ViewState } from '../../types';
 
 interface ServicesViewProps {
-    setCurrentView: (view: ViewState) => void;
     expandedService: number | null;
     setExpandedService: (index: number | null) => void;
 }
 
-const ServicesView: React.FC<ServicesViewProps> = ({ setCurrentView, expandedService, setExpandedService }) => {
+const ServicesView: React.FC<ServicesViewProps> = ({ expandedService, setExpandedService }) => {
     const toggleService = (index: number) => {
         setExpandedService(expandedService === index ? null : index);
     };
@@ -71,7 +70,7 @@ const ServicesView: React.FC<ServicesViewProps> = ({ setCurrentView, expandedSer
                                                 <p className="text-[11px] text-meira-accent font-black uppercase tracking-widest leading-relaxed">{s.result}</p>
                                             </div>
                                         </div>
-                                        <button onClick={() => setCurrentView('CONTATO')} className="inline-flex items-center gap-4 bg-meira-soft-white text-meira-dark px-10 py-5 rounded-full font-black text-[10px] tracking-[0.3em] uppercase hover:bg-meira-accent transition-colors">REQUISITAR AGORA <ArrowUpRight size={16} /></button>
+                                        <Link to="/contato" className="inline-flex items-center gap-4 bg-meira-soft-white text-meira-dark px-10 py-5 rounded-full font-black text-[10px] tracking-[0.3em] uppercase hover:bg-meira-accent transition-colors">REQUISITAR AGORA <ArrowUpRight size={16} /></Link>
                                     </div>
                                     <div className="p-8 bg-white/[0.02] rounded-[2rem] border border-white/5 space-y-6">
                                         <p className="text-[9px] font-black text-white/30 tracking-[0.4em] uppercase">Entregas técnicas / Serviços</p>

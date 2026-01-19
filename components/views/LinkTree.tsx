@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
     Instagram,
     Mail,
@@ -9,7 +10,6 @@ import {
     ArrowLeft
 } from 'lucide-react';
 import { LogoIcon } from '../ui/Icons';
-import { ViewState } from '../../types';
 
 const LinkCard = ({
     title,
@@ -38,7 +38,7 @@ const LinkCard = ({
     </a >
 );
 
-const LinkTreeView: React.FC<{ setCurrentView: (view: ViewState) => void }> = ({ setCurrentView }) => {
+const LinkTreeView: React.FC = () => {
     const services = [
         "MAPA / SIPEAGRO",
         "BPF & POPs",
@@ -49,13 +49,13 @@ const LinkTreeView: React.FC<{ setCurrentView: (view: ViewState) => void }> = ({
     return (
         <div className="min-h-screen flex flex-col items-center py-10 px-6 max-w-xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-1000 relative">
             {/* Back Button */}
-            <button
-                onClick={() => setCurrentView('HOME')}
+            <Link
+                to="/"
                 className="absolute left-6 top-6 flex items-center gap-2 text-meira-deep/50 hover:text-meira-deep font-black text-[10px] uppercase tracking-widest transition-colors group"
             >
                 <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                 Voltar
-            </button>
+            </Link>
             {/* Header Section */}
             <header className="flex flex-col items-center text-center mb-12 w-full">
                 <div className="bg-white p-8 rounded-[2.5rem] shadow-xl mb-8 group hover:scale-105 transition-transform duration-500 border border-slate-100">
@@ -108,8 +108,8 @@ const LinkTreeView: React.FC<{ setCurrentView: (view: ViewState) => void }> = ({
                     href="mailto:juliareismeira@gmail.com"
                     icon={Mail}
                 />
-                <button
-                    onClick={() => setCurrentView('HOME')}
+                <Link
+                    to="/"
                     className="w-full bg-meira-deep p-6 rounded-[2rem] flex items-center gap-6 text-left mb-4 group ring-1 ring-white/5 shadow-xl hover:scale-[1.02] transition-all cursor-pointer"
                 >
                     <div className="bg-meira-accent p-4 rounded-2xl text-meira-dark group-hover:scale-110 transition-transform shadow-lg shadow-meira-accent/20">
@@ -119,7 +119,7 @@ const LinkTreeView: React.FC<{ setCurrentView: (view: ViewState) => void }> = ({
                         <h3 className="text-white font-bold text-lg uppercase leading-tight tracking-tight">Site Oficial</h3>
                         <p className="text-meira-accent/90 font-bold text-[10px] tracking-[0.2em] uppercase mt-1">Voltar ao site</p>
                     </div>
-                </button>
+                </Link>
             </main>
 
             {/* Footer Section */}

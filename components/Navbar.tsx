@@ -1,46 +1,47 @@
 import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Lock, Menu, X } from 'lucide-react';
-import { ViewState } from '../types';
-import { LogoMeira, LogoIcon } from './ui/Icons';
+import { LogoIcon } from './ui/Icons';
 
 interface NavbarProps {
-    currentView: ViewState;
-    setCurrentView: (view: ViewState) => void;
     setShowLogin: (show: boolean) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, setShowLogin }) => {
+const Navbar: React.FC<NavbarProps> = ({ setShowLogin }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    const NavItem = ({ view, label }: { view: ViewState, label: string }) => (
-        <button
-            onClick={() => {
-                setCurrentView(view);
-                setIsMenuOpen(false);
-            }}
-            className={`text-[10px] font-black tracking-[0.3em] uppercase transition-colors relative py-2 group ${currentView === view ? 'text-meira-accent' : 'text-white/50 hover:text-white'}`}
-        >
-            {label}
-            <span className={`absolute bottom-0 left-0 w-full h-[1.5px] bg-meira-accent transition-all origin-left ${currentView === view ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-50'}`}></span>
-        </button>
-    );
+    const NavItem = ({ to, label }: { to: string, label: string }) => {
+        const isActive = location.pathname === to;
+        return (
+            <Link
+                to={to}
+                onClick={() => setIsMenuOpen(false)}
+                className={`text-[10px] font-black tracking-[0.3em] uppercase transition-colors relative py-2 group ${isActive ? 'text-meira-accent' : 'text-white/50 hover:text-white'}`}
+            >
+                {label}
+                <span className={`absolute bottom-0 left-0 w-full h-[1.5px] bg-meira-accent transition-all origin-left ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-50'}`}></span>
+            </Link>
+        );
+    };
 
     return (
         <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-6xl">
             <div className="glass-card rounded-full px-8 py-3 flex justify-between items-center shadow-2xl border-white/5 relative z-50">
-                <div className="flex items-center gap-2 cursor-pointer group" onClick={() => setCurrentView('HOME')}>
+                <Link to="/" className="flex items-center gap-2 cursor-pointer group">
                     <LogoIcon className="h-6 md:h-7 w-auto" />
                     <span className="text-sm md:text-base font-bold tracking-[0.2em] text-white flex items-center">
                         MEIRA<span className="font-light text-white/90">SOLUÇÕES</span>
                     </span>
-                </div>
+                </Link>
 
                 <div className="flex items-center gap-4 md:gap-10">
                     <div className="hidden md:flex items-center gap-8">
-                        <NavItem view="HOME" label="INÍCIO" />
-                        <NavItem view="SERVICOS" label="SERVIÇOS" />
-                        <NavItem view="MATERIAIS" label="MATERIAIS" />
-                        <NavItem view="CONTATO" label="CONTATO" />
+                        <NavItem to="/" label="INÍCIO" />
+                        <NavItem to="/servicos" label="SERVIÇOS" />
+                        <NavItem to="/materiais" label="MATERIAIS" />
+                        <NavItem to="/contato" label="CONTATO" />
                     </div>
 
                     <div className="flex items-center gap-3">
@@ -65,10 +66,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView, setShowLog
             {/* Mobile Menu */}
             <div className={`md:hidden absolute top-full left-0 w-full mt-4 transition-all duration-500 ease-in-out ${isMenuOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
                 <div className="glass-card rounded-[2rem] p-8 flex flex-col gap-6 items-center border-white/5 shadow-2xl">
-                    <NavItem view="HOME" label="INÍCIO" />
-                    <NavItem view="SERVICOS" label="SERVIÇOS" />
-                    <NavItem view="MATERIAIS" label="MATERIAIS" />
-                    <NavItem view="CONTATO" label="CONTATO" />
+                    <NavItem to="/" label="INÍCIO" />
+                    <NavItem to="/servicos" label="SERVIÇOS" />
+                    <NavItem to="/materiais" label="MATERIAIS" />
+                    <NavItem to="/contato" label="CONTATO" />
                     <hr className="w-full border-white/5" />
                     <button
                         onClick={() => {

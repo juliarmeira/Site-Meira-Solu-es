@@ -1,19 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
     ChevronDown,
     Download
 } from 'lucide-react';
 import { LogoIcon } from '../ui/Icons';
 import { servicesData, pillars } from "../../data/constants";
-import { ViewState } from '../../types';
 
 interface HomeViewProps {
-    setCurrentView: (view: ViewState) => void;
     expandedService: number | null;
     setExpandedService: (index: number | null) => void;
 }
 
-const HomeView: React.FC<HomeViewProps> = ({ setCurrentView, expandedService, setExpandedService }) => {
+const HomeView: React.FC<HomeViewProps> = ({ expandedService, setExpandedService }) => {
     const toggleService = (index: number) => {
         setExpandedService(expandedService === index ? null : index);
     };
@@ -34,12 +33,12 @@ const HomeView: React.FC<HomeViewProps> = ({ setCurrentView, expandedService, se
                     FOCO TÉCNICO EM CONFORMIDADE MAPA, EXCELÊNCIA REGULATÓRIA E GESTÃO INTELIGENTE.
                 </p>
                 <div className="pt-8 flex justify-center">
-                    <button
-                        onClick={() => setCurrentView('CONTATO')}
+                    <Link
+                        to="/contato"
                         className="bg-meira-accent text-meira-dark px-14 py-5 rounded-full font-black text-[11px] tracking-[0.3em] uppercase hover:bg-meira-soft-white transition-colors"
                     >
                         ENTRE EM CONTATO
-                    </button>
+                    </Link>
                 </div>
             </section>
 
@@ -109,7 +108,7 @@ const HomeView: React.FC<HomeViewProps> = ({ setCurrentView, expandedService, se
                                             <p className="text-[9px] font-black text-white/30 uppercase tracking-[0.3em]">RESULTADO TÉCNICO</p>
                                             <p className="text-[10px] text-meira-accent font-bold uppercase tracking-widest">{s.result}</p>
                                         </div>
-                                        <button onClick={() => setCurrentView('SERVICOS')} className="bg-white/10 text-white px-8 py-3 rounded-full font-black text-[9px] tracking-[0.3em] uppercase hover:bg-meira-accent hover:text-meira-dark transition-colors">VER DETALHES</button>
+                                        <Link to="/servicos" className="bg-white/10 text-white px-8 py-3 rounded-full font-black text-[9px] tracking-[0.3em] uppercase hover:bg-meira-accent hover:text-meira-dark transition-colors">VER DETALHES</Link>
                                     </div>
                                 </div>
                             </div>
@@ -131,12 +130,12 @@ const HomeView: React.FC<HomeViewProps> = ({ setCurrentView, expandedService, se
                             <p className="text-white/70 text-[13px] font-bold max-w-xl leading-relaxed uppercase tracking-[0.15em]">SISTEMÁTICA HIGIÊNICO-SANITÁRIA PARA CONFORMIDADE MAPA E EXCELÊNCIA NAS OPERAÇÕES INDUSTRIAIS.</p>
                         </div>
                         <div className="flex justify-center md:justify-start">
-                            <button
-                                onClick={() => setCurrentView('CONTATO')}
+                            <Link
+                                to="/contato"
                                 className="inline-flex items-center gap-5 bg-meira-soft-white text-meira-dark px-12 py-5 rounded-full font-black text-[11px] tracking-[0.4em] uppercase hover:bg-meira-accent transition-colors"
                             >
                                 SOLICITAR ACESSO <Download size={20} />
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
