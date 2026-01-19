@@ -42,24 +42,47 @@ const HomeView: React.FC<HomeViewProps> = ({ expandedService, setExpandedService
                 </div>
             </section>
 
-            {/* MÉTODO */}
-            <section className="space-y-20 py-20 border-y border-white/5">
-                <div className="text-center space-y-4">
-                    <h2 className="text-[11px] font-black text-meira-accent tracking-[0.5em] uppercase">COMO OPERAMOS</h2>
-                    <h3 className="text-3xl font-light uppercase tracking-tight text-white">ENGENHARIA <span className="font-bold">APLICADA.</span></h3>
+            {/* MÉTODO - Metodologia de Trabalho */}
+            <section className="py-24 border-y border-white/5">
+                <div className="text-center space-y-4 mb-16">
+                    <p className="text-[10px] font-black text-meira-accent tracking-[0.5em] uppercase">METODOLOGIA</p>
+                    <h2 className="text-3xl md:text-4xl font-light uppercase tracking-tight text-white">
+                        COMO <span className="font-black">TRABALHAMOS.</span>
+                    </h2>
                 </div>
-                <div className="relative max-w-5xl mx-auto px-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 relative z-10">
+
+                <div className="max-w-5xl mx-auto px-4">
+                    <div className="grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-6">
                         {pillars.map((pillar, idx) => (
-                            <div key={idx} className="flex flex-col items-center text-center space-y-6 group">
-                                <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 group-hover:border-meira-accent group-hover:text-meira-accent transition-colors relative overflow-hidden">
-                                    <div className="absolute inset-0 bg-meira-accent/0 group-hover:bg-meira-accent/10 transition-colors" />
-                                    {pillar.icon}
-                                </div>
-                                <div className="space-y-2">
-                                    <h4 className="text-[10px] font-bold tracking-[0.25em] uppercase text-white/90 group-hover:text-meira-accent transition-colors leading-tight">{pillar.title}</h4>
-                                    <p className="text-[8px] font-black text-meira-accent/60 uppercase tracking-[0.2em]">{pillar.subtitle}</p>
-                                    <p className="text-[10px] text-white/40 uppercase tracking-widest leading-relaxed font-bold">{pillar.description}</p>
+                            <div
+                                key={idx}
+                                className="group relative"
+                            >
+                                {/* Seta conectora (apenas desktop) */}
+                                {idx < 4 && (
+                                    <div className="hidden md:flex absolute top-6 left-[calc(50%+30px)] w-[calc(100%-60px)] items-center justify-center">
+                                        <div className="w-full h-[1px] bg-gradient-to-r from-meira-accent/20 via-meira-accent/10 to-transparent" />
+                                    </div>
+                                )}
+
+                                <div className="flex flex-col items-center text-center space-y-4">
+                                    {/* Ícone */}
+                                    <div className="w-12 h-12 rounded-xl bg-meira-accent/10 border border-meira-accent/20 flex items-center justify-center text-meira-accent group-hover:bg-meira-accent group-hover:text-meira-dark transition-all duration-300">
+                                        {pillar.icon}
+                                    </div>
+
+                                    {/* Conteúdo */}
+                                    <div className="space-y-2">
+                                        <h4 className="text-[11px] font-black tracking-[0.1em] uppercase text-white">
+                                            {pillar.title}
+                                        </h4>
+                                        <p className="text-[9px] font-bold text-meira-accent/80 uppercase tracking-wide">
+                                            {pillar.subtitle}
+                                        </p>
+                                        <p className="text-[10px] text-white/40 leading-relaxed max-w-[140px] mx-auto">
+                                            {pillar.description}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         ))}

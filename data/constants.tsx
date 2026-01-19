@@ -96,9 +96,39 @@ export const servicesData: ServiceDetail[] = [
 ];
 
 export const pillars = [
-    { id: "01", title: "DIAGNÓSTICO TÉCNICO", subtitle: "PRECISÃO INICIAL", description: "Análise de processo e riscos.", icon: <Search size={20} /> },
-    { id: "02", title: "VISÃO SISTÊMICA", subtitle: "CONFORMIDADE LEGAL", description: "MAPA e Ambiental integrados.", icon: <Layers size={20} /> },
-    { id: "03", title: "ENGENHARIA VIÁVEL", subtitle: "ESCALA REAL", description: "Dimensionado ao produtor.", icon: <DraftingCompass size={20} /> },
-    { id: "04", title: "MÉTODO & DOCS", subtitle: "RASTREABILIDADE", description: "Padronização total.", icon: <FileCheck size={20} /> },
-    { id: "05", title: "TECNOLOGIA", subtitle: "CLAREZA DE GESTÃO", description: "QGIS e Dados.", icon: <Cpu size={20} /> }
+    {
+        id: "01",
+        title: "DIAGNÓSTICO",
+        subtitle: "Análise da Realidade",
+        description: "Mapeamento completo da operação, riscos e oportunidades do seu negócio.",
+        icon: <Search size={20} />
+    },
+    {
+        id: "02",
+        title: "LEGISLAÇÃO",
+        subtitle: "Confronto Normativo",
+        description: "Análise das exigências MAPA, ambientais e de produtos controlados.",
+        icon: <Shield size={20} />
+    },
+    {
+        id: "03",
+        title: "ENQUADRAMENTO",
+        subtitle: "Adequação Técnica",
+        description: "Definição do caminho regulatório ideal para sua operação.",
+        icon: <Layers size={20} />
+    },
+    {
+        id: "04",
+        title: "PROJETO",
+        subtitle: "Engenharia Aplicada",
+        description: "Desenvolvimento de plantas, processos e documentação técnica.",
+        icon: <DraftingCompass size={20} />
+    },
+    {
+        id: "05",
+        title: "ENTREGA",
+        subtitle: "Regularização Final",
+        description: "Acompanhamento até a obtenção de licenças e registros.",
+        icon: <FileCheck size={20} />
+    }
 ];

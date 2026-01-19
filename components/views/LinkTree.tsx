@@ -4,7 +4,7 @@ import {
     Instagram,
     Mail,
     Globe,
-    MessageCircle,
+    Phone,
     MapPin,
     CheckCircle2,
     ArrowLeft
@@ -67,9 +67,17 @@ const LinkTreeView: React.FC = () => {
                         <span className="font-bold">MEIRA</span>
                         <span className="font-light opacity-80">SOLUÇÕES</span>
                     </h1>
-                    <p className="font-black text-[10px] tracking-[0.4em] uppercase text-meira-deep/50 px-6 py-2 rounded-full border border-meira-deep/5 bg-meira-deep/[0.02]">
-                        REGULARIZAÇÃO DE ALAMBIQUES E BEBIDAS
-                    </p>
+                    <div className="space-y-3">
+                        <p className="font-black text-[12px] tracking-[0.3em] uppercase text-meira-accent">
+                            REGULARIZAÇÃO DE ALAMBIQUES E BEBIDAS
+                        </p>
+                        <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-meira-deep text-white">
+                            <LogoIcon className="w-4 h-4" />
+                            <span className="font-bold text-[9px] tracking-[0.3em] uppercase">
+                                Engenharia Química & Ambiental
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Services Grid (Mini Chips) */}
@@ -94,7 +102,7 @@ const LinkTreeView: React.FC = () => {
                     title="WhatsApp"
                     subtitle="Fale Comigo"
                     href="https://w.app/solucoesmeira"
-                    icon={MessageCircle}
+                    icon={Phone}
                 />
                 <LinkCard
                     title="Instagram"
@@ -117,7 +125,7 @@ const LinkTreeView: React.FC = () => {
                     </div>
                     <div className="flex flex-col">
                         <h3 className="text-white font-bold text-lg uppercase leading-tight tracking-tight">Site Oficial</h3>
-                        <p className="text-meira-accent/90 font-bold text-[10px] tracking-[0.2em] uppercase mt-1">Voltar ao site</p>
+                        <p className="text-meira-accent/90 font-bold text-[10px] tracking-[0.2em] uppercase mt-1">Conheça meu trabalho</p>
                     </div>
                 </Link>
             </main>

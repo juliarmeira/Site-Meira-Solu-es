@@ -12,8 +12,8 @@ const Footer: React.FC = () => {
                         <span className="font-black tracking-[0.6em] text-[13px] uppercase text-white">MEIRA SOLUÇÕES</span>
                     </div>
                     <p className="text-white/60 text-[11px] font-black tracking-[0.5em] uppercase text-center md:text-left">
-                        © 2026 • ANDRADAS - MG • CIÊNCIA & ÉTICA <br />
-                        ENGENHARIA QUÍMICA E AMBIENTAL EM ALTA PERFORMANCE
+                        © 2026 • ANDRADAS - MG <br />
+                        ENGENHARIA QUÍMICA E AMBIENTAL
                     </p>
                 </div>
                 <div className="flex gap-12 text-white/50 text-[11px] font-black uppercase tracking-widest">
