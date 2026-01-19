@@ -1,48 +1,35 @@
 import React from 'react';
-import { X, Lock } from 'lucide-react';
+import { X } from 'lucide-react';
 import { LogoIcon } from './ui/Icons';
 import { supabase } from '../supabase';
 
 interface LoginModalProps {
     onClose: () => void;
+    onSuccess?: () => void;
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
-    const [isSignUp, setIsSignUp] = React.useState(false);
+const LoginModal: React.FC<LoginModalProps> = ({ onClose, onSuccess }) => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState('');
-    const [message, setMessage] = React.useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError('');
-        setMessage('');
 
-        if (isSignUp) {
-            const { error: signUpError } = await supabase.auth.signUp({
-                email,
-                password,
-            });
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        });
 
-            if (signUpError) {
-                setError(signUpError.message);
-                setLoading(false);
-            } else {
-                setMessage('Conta criada! Verifique seu e-mail para confirmar.');
-                setLoading(false);
-            }
+        if (signInError) {
+            setError(signInError.message === 'Invalid login credentials' ? 'Credenciais inválidas.' : signInError.message);
+            setLoading(false);
         } else {
-            const { error: signInError } = await supabase.auth.signInWithPassword({
-                email,
-                password
-            });
-
-            if (signInError) {
-                setError(signInError.message === 'Invalid login credentials' ? 'Credenciais inválidas.' : signInError.message);
-                setLoading(false);
+            if (onSuccess) {
+                onSuccess();
             } else {
                 onClose();
             }
@@ -67,7 +54,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
                     </div>
                     <div className="space-y-2">
                         <h2 className="text-xl md:text-2xl font-light uppercase tracking-tight text-white">
-                            {isSignUp ? 'CRIAR' : 'SISTEMA'} <span className="font-bold text-meira-accent">{isSignUp ? 'CONTA' : 'RESTRITO'}.</span>
+                            SISTEMA <span className="font-bold text-meira-accent">RESTRITO.</span>
                         </h2>
                         <p className="text-white/40 text-[9px] font-black tracking-[0.3em] uppercase">
                             ACESSO EXCLUSIVO A COLABORADORES
@@ -101,31 +88,16 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
                         <p className="text-red-400 text-[9px] font-black uppercase tracking-widest text-center">{error}</p>
                     )}
 
-                    {message && (
-                        <p className="text-meira-accent text-[9px] font-black uppercase tracking-widest text-center">{message}</p>
-                    )}
-
                     <button
                         disabled={loading}
                         className="w-full bg-meira-accent text-meira-dark py-6 rounded-full font-black text-[11px] tracking-[0.3em] uppercase shadow-2xl disabled:opacity-50 hover:bg-meira-soft-white transition-colors"
                     >
-                        {loading ? 'PROCESSANDO...' : isSignUp ? 'CRIAR CONTA' : 'AUTENTICAR'}
+                        {loading ? 'AUTENTICANDO...' : 'ENTRAR'}
                     </button>
 
-                    <div className="text-center pt-2">
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setIsSignUp(!isSignUp);
-                                setError('');
-                                setMessage('');
-                            }}
-                            className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] hover:text-meira-accent transition-colors group flex items-center justify-center gap-2 mx-auto"
-                        >
-                            <span className="w-1 h-1 bg-white/20 rounded-full group-hover:bg-meira-accent transition-colors"></span>
-                            {isSignUp ? 'JÁ POSSUI CADASTRO? ENTRAR' : 'NÃO POSSUI CONTA? SOLICITAR ACESSO'}
-                        </button>
-                    </div>
+                    <p className="text-center text-white/20 text-[9px] font-bold uppercase tracking-widest">
+                        Acesso restrito a membros autorizados
+                    </p>
                 </form>
             </div>
         </div>
