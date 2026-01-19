@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import {
     ArrowUpRight,
     CheckCircle2,
-    ChevronDown
+    ChevronDown,
+    Target
 } from 'lucide-react';
 import { servicesData } from "../../data/constants";
 
@@ -18,70 +19,99 @@ const ServicesView: React.FC<ServicesViewProps> = ({ expandedService, setExpande
     };
 
     return (
-        <div className="space-y-24 pb-20">
-            <header className="text-center max-w-4xl mx-auto space-y-10">
-                <div className="space-y-4">
-                    <h1 className="text-4xl md:text-6xl font-light tracking-tight uppercase leading-none text-white">
-                        SERVIÇOS & <br /> <span className="font-bold text-meira-accent">ENTREGAS TÉCNICAS.</span>
-                    </h1>
-                    <p className="text-meira-accent text-[10px] md:text-[11px] font-black tracking-[0.4em] uppercase opacity-80">
-                        Engenharia · Regulação · Dados · Tecnologia Aplicada
-                    </p>
-                </div>
-                <p className="text-white/70 text-[13px] md:text-[14px] font-bold leading-relaxed uppercase tracking-widest text-center px-4 max-w-2xl mx-auto">
-                    ESTRUTURAÇÃO TÉCNICA, REGULATÓRIA E DIGITAL DE EMPREENDIMENTOS, INTEGRANDO CIÊNCIA E OPERAÇÃO.
+        <div className="space-y-16 pb-20">
+            <header className="text-center max-w-3xl mx-auto space-y-6">
+                <h1 className="text-3xl md:text-5xl font-light tracking-tight uppercase leading-none text-white">
+                    SERVIÇOS & <span className="font-bold text-meira-accent">ENTREGAS.</span>
+                </h1>
+                <p className="text-white/50 text-[11px] font-bold leading-relaxed max-w-xl mx-auto">
+                    Estruturação técnica, regulatória e digital de empreendimentos, integrando ciência e operação.
                 </p>
             </header>
 
-            <div className="max-w-4xl mx-auto space-y-4">
+            <div className="max-w-3xl mx-auto space-y-3">
                 {servicesData.map((s, i) => (
-                    <div key={i} className={`glass-card rounded-[1.5rem] border-white/5 transition-all overflow-hidden ${expandedService === i ? 'border-meira-accent/20 bg-white/[0.04]' : 'hover:border-white/10'}`}>
+                    <div
+                        key={i}
+                        className={`rounded-2xl border transition-all overflow-hidden ${expandedService === i
+                                ? 'border-meira-accent/20 bg-white/[0.03]'
+                                : 'border-white/5 hover:border-white/10 bg-white/[0.01]'
+                            }`}
+                    >
+                        {/* Header */}
                         <button
                             onClick={() => toggleService(i)}
-                            className="w-full px-8 py-5 flex flex-col md:flex-row items-center justify-between gap-6 text-left group"
+                            className="w-full px-6 py-5 flex items-center justify-between gap-4 group"
                         >
-                            <div className="flex items-center gap-6 w-full md:w-auto">
-                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all shrink-0 ${expandedService === i ? 'bg-meira-accent text-meira-dark' : 'bg-white/5 text-meira-accent group-hover:scale-105'}`}>
+                            <div className="flex items-center gap-5">
+                                <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all shrink-0 ${expandedService === i
+                                        ? 'bg-meira-accent text-meira-dark'
+                                        : 'bg-meira-accent/10 text-meira-accent border border-meira-accent/20'
+                                    }`}>
                                     {s.icon}
                                 </div>
-                                <div className="space-y-1">
-                                    <h3 className="text-lg font-bold uppercase tracking-tight group-hover:text-meira-accent transition-colors leading-none">{s.title}</h3>
-                                    <p className={`text-[8px] font-black tracking-[0.25em] uppercase transition-colors ${expandedService === i ? 'text-meira-accent' : 'text-white/30'}`}>
+                                <div className="text-left">
+                                    <h3 className="text-base font-bold uppercase tracking-tight group-hover:text-meira-accent transition-colors">
+                                        {s.title}
+                                    </h3>
+                                    <p className={`text-[8px] font-bold tracking-widest uppercase mt-0.5 ${expandedService === i ? 'text-meira-accent/80' : 'text-white/30'
+                                        }`}>
                                         {s.slogan}
                                     </p>
                                 </div>
                             </div>
-                            <div className={`w-8 h-8 rounded-full border border-white/5 flex items-center justify-center transition-all ${expandedService === i ? 'rotate-180 bg-meira-accent/10 text-meira-accent' : 'text-white/20'}`}>
-                                <ChevronDown size={16} />
-                            </div>
+                            <ChevronDown
+                                size={18}
+                                className={`transition-all duration-300 ${expandedService === i ? 'rotate-180 text-meira-accent' : 'text-white/20'
+                                    }`}
+                            />
                         </button>
 
-                        <div className={`transition-all duration-500 ease-in-out ${expandedService === i ? 'max-h-[1200px] opacity-100 border-t border-white/5' : 'max-h-0 opacity-0'}`}>
-                            <div className="p-8 lg:p-12 space-y-12 bg-white/[0.01]">
-                                <div className="grid md:grid-cols-2 gap-12">
-                                    <div className="space-y-10">
-                                        <div className="space-y-3">
-                                            <p className="text-[9px] font-black text-meira-accent tracking-[0.4em] uppercase border-l-2 border-meira-accent pl-4">Escopo técnico</p>
-                                            <p className="text-[13px] text-white/90 font-bold leading-relaxed uppercase tracking-widest">{s.summary}</p>
+                        {/* Conteúdo Expandido - Layout Vertical Organizado */}
+                        <div className={`grid transition-all duration-400 ${expandedService === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                            }`}>
+                            <div className="overflow-hidden">
+                                <div className="px-6 pb-6 space-y-5 border-t border-white/5 pt-5">
+
+                                    {/* Descrição */}
+                                    <p className="text-white/60 text-sm leading-relaxed">
+                                        {s.summary}
+                                    </p>
+
+                                    {/* Entregas em grid de tags */}
+                                    <div className="space-y-3">
+                                        <p className="text-[9px] font-bold text-meira-accent/60 uppercase tracking-widest flex items-center gap-2">
+                                            <CheckCircle2 size={12} />
+                                            O que inclui
+                                        </p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {s.includes.map((item, idx) => (
+                                                <span
+                                                    key={idx}
+                                                    className="px-3 py-1.5 bg-white/[0.03] border border-white/5 rounded-full text-[10px] text-white/60 font-medium hover:border-meira-accent/20 hover:text-white/80 transition-colors cursor-default"
+                                                >
+                                                    {item}
+                                                </span>
+                                            ))}
                                         </div>
-                                        <div className="space-y-3">
-                                            <p className="text-[9px] font-black text-meira-accent tracking-[0.4em] uppercase border-l-2 border-meira-accent pl-4">Resultado técnico</p>
-                                            <div className="p-5 bg-meira-accent/5 rounded-2xl border border-meira-accent/10">
-                                                <p className="text-[11px] text-meira-accent font-black uppercase tracking-widest leading-relaxed">{s.result}</p>
+                                    </div>
+
+                                    {/* Resultado + CTA */}
+                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-white/5">
+                                        <div className="flex items-start gap-3">
+                                            <Target size={16} className="text-meira-accent shrink-0 mt-0.5" />
+                                            <div>
+                                                <p className="text-[8px] font-bold text-white/30 uppercase tracking-widest">Resultado</p>
+                                                <p className="text-[11px] text-meira-accent font-medium mt-0.5">{s.result}</p>
                                             </div>
                                         </div>
-                                        <Link to="/contato" className="inline-flex items-center gap-4 bg-meira-soft-white text-meira-dark px-10 py-5 rounded-full font-black text-[10px] tracking-[0.3em] uppercase hover:bg-meira-accent transition-colors">REQUISITAR AGORA <ArrowUpRight size={16} /></Link>
-                                    </div>
-                                    <div className="p-8 bg-white/[0.02] rounded-[2rem] border border-white/5 space-y-6">
-                                        <p className="text-[9px] font-black text-white/30 tracking-[0.4em] uppercase">Entregas técnicas / Serviços</p>
-                                        <ul className="space-y-4">
-                                            {s.includes.map((item, idx) => (
-                                                <li key={idx} className="flex items-start gap-3 group/li">
-                                                    <CheckCircle2 size={16} className="text-meira-accent shrink-0 mt-0.5" />
-                                                    <span className="text-[11px] text-white/70 font-bold uppercase tracking-widest leading-relaxed group-hover/li:text-white transition-colors">{item}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
+                                        <Link
+                                            to="/contato"
+                                            className="inline-flex items-center justify-center gap-2 bg-meira-accent text-meira-dark px-6 py-3 rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-meira-soft-white transition-colors shrink-0"
+                                        >
+                                            Solicitar
+                                            <ArrowUpRight size={14} />
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
