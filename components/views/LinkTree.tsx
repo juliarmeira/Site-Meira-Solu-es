@@ -74,7 +74,7 @@ const LinkTreeView: React.FC = () => {
                             </p>
                         </div>
                         <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-meira-accent text-meira-dark">
-                            <LogoIcon className="w-4 h-4" />
+                            <LogoIcon className="w-4 h-4 brightness-0" />
                             <span className="font-bold text-[9px] tracking-[0.3em] uppercase">
                                 Engenharia Química & Ambiental
                             </span>

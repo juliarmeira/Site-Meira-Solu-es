@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { LogoIcon } from '../ui/Icons';
 import { servicesData, pillars } from "../../data/constants";
+import RegularizationSection from './RegularizationSection';
 
 interface HomeViewProps {
     expandedService: number | null;
@@ -15,6 +16,13 @@ interface HomeViewProps {
 const HomeView: React.FC<HomeViewProps> = ({ expandedService, setExpandedService }) => {
     const toggleService = (index: number) => {
         setExpandedService(expandedService === index ? null : index);
+    };
+
+    const scrollToRegularization = () => {
+        const element = document.getElementById('regularizacao');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
     };
 
     return (
@@ -35,12 +43,15 @@ const HomeView: React.FC<HomeViewProps> = ({ expandedService, setExpandedService
                 <div className="pt-8 flex justify-center">
                     <Link
                         to="/contato"
-                        className="bg-meira-accent text-meira-dark px-14 py-5 rounded-full font-black text-[11px] tracking-[0.3em] uppercase hover:bg-meira-soft-white transition-colors"
+                        className="bg-meira-accent text-meira-dark px-14 py-5 rounded-full font-black text-[11px] tracking-[0.3em] uppercase hover:bg-meira-soft-white transition-colors min-w-[280px]"
                     >
                         ENTRE EM CONTATO
                     </Link>
                 </div>
             </section>
+
+            {/* WHY REGULARIZE SECTION */}
+            <RegularizationSection />
 
             {/* MÉTODO - Metodologia de Trabalho */}
             <section className="py-24 border-y border-white/5">
@@ -56,30 +67,30 @@ const HomeView: React.FC<HomeViewProps> = ({ expandedService, setExpandedService
                         {pillars.map((pillar, idx) => (
                             <div
                                 key={idx}
-                                className="group relative"
+                                className="group relative transition-all duration-500 hover:-translate-y-3"
                             >
                                 {/* Seta conectora (apenas desktop) */}
                                 {idx < 4 && (
                                     <div className="hidden md:flex absolute top-6 left-[calc(50%+30px)] w-[calc(100%-60px)] items-center justify-center">
-                                        <div className="w-full h-[1px] bg-gradient-to-r from-meira-accent/20 via-meira-accent/10 to-transparent" />
+                                        <div className="w-full h-[1px] bg-gradient-to-r from-white/10 via-white/5 to-transparent group-hover:from-meira-accent/50 group-hover:via-meira-accent/30 transition-all duration-500" />
                                     </div>
                                 )}
 
-                                <div className="flex flex-col items-center text-center space-y-4">
+                                <div className="flex flex-col items-center text-center space-y-4 p-4 rounded-3xl group-hover:bg-white/[0.02] transition-colors duration-500">
                                     {/* Ícone */}
-                                    <div className="w-12 h-12 rounded-xl bg-meira-accent/10 border border-meira-accent/20 flex items-center justify-center text-meira-accent group-hover:bg-meira-accent group-hover:text-meira-dark transition-all duration-300">
+                                    <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-meira-accent group-hover:bg-meira-accent group-hover:text-meira-dark group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(191,255,0,0.2)] transition-all duration-300">
                                         {pillar.icon}
                                     </div>
 
                                     {/* Conteúdo */}
-                                    <div className="space-y-2">
-                                        <h4 className="text-[11px] font-black tracking-[0.1em] uppercase text-white">
+                                    <div className="space-y-3">
+                                        <h4 className="text-[12px] font-black tracking-[0.15em] uppercase text-white group-hover:text-meira-accent transition-colors duration-300">
                                             {pillar.title}
                                         </h4>
-                                        <p className="text-[9px] font-bold text-meira-accent/80 uppercase tracking-wide">
+                                        <p className="text-[10px] font-bold text-meira-accent/80 uppercase tracking-wide">
                                             {pillar.subtitle}
                                         </p>
-                                        <p className="text-[10px] text-white/40 leading-relaxed max-w-[140px] mx-auto">
+                                        <p className="text-[11px] text-white/50 leading-relaxed max-w-[180px] mx-auto group-hover:text-white/80 transition-colors duration-300">
                                             {pillar.description}
                                         </p>
                                     </div>
@@ -94,7 +105,7 @@ const HomeView: React.FC<HomeViewProps> = ({ expandedService, setExpandedService
             <section className="space-y-16">
                 <div className="text-center space-y-4">
                     <h2 className="text-[11px] font-black text-meira-accent tracking-[0.5em] uppercase">SOLUÇÕES TÉCNICAS</h2>
-                    <h3 className="text-3xl font-light uppercase tracking-tight text-white">NOSSAS <span className="font-bold">ESPECIALIDADES.</span></h3>
+                    <h3 className="text-3xl font-light uppercase tracking-tight text-white">NOSSOS <span className="font-bold">SERVIÇOS.</span></h3>
                 </div>
 
                 <div className="max-w-4xl mx-auto space-y-4">
