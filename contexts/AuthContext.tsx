@@ -7,6 +7,7 @@ interface AuthContextType {
     session: Session | null;
     loading: boolean;
     signOut: () => Promise<void>;
+    mockSignIn: (email: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -14,6 +15,7 @@ const AuthContext = createContext<AuthContextType>({
     session: null,
     loading: true,
     signOut: async () => { },
+    mockSignIn: () => { },
 });
 
 export const useAuth = () => {
@@ -65,8 +67,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setSession(null);
     };
 
+    const mockSignIn = (email: string) => {
+        const mockUser: User = {
+            id: 'mock-user-id',
+            aud: 'authenticated',
+            role: 'authenticated',
+            email: email,
+            app_metadata: { provider: 'email' },
+            user_metadata: {},
+            created_at: new Date().toISOString(),
+        } as User;
+
+        const mockSession: Session = {
+            access_token: 'mock-token',
+            refresh_token: 'mock-refresh-token',
+            expires_in: 3600,
+            token_type: 'bearer',
+            user: mockUser
+        };
+
+        setUser(mockUser);
+        setSession(mockSession);
+    };
+
     return (
-        <AuthContext.Provider value={{ user, session, loading, signOut }}>
+        <AuthContext.Provider value={{ user, session, loading, signOut, mockSignIn }}>
             {children}
         </AuthContext.Provider>
     );

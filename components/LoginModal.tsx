@@ -2,6 +2,7 @@ import React from 'react';
 import { X } from 'lucide-react';
 import { LogoIcon } from './ui/Icons';
 import { supabase } from '../supabase';
+import { useAuth } from '../contexts/AuthContext';
 
 interface LoginModalProps {
     onClose: () => void;
@@ -14,10 +15,23 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onSuccess }) => {
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState('');
 
+    const { mockSignIn } = useAuth(); // Add this hook
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError('');
+
+        // Specific override for requested user
+        if (email.toLowerCase() === 'juliareismeira@gmail.com' && password === 'ADMIN') {
+            mockSignIn(email);
+            if (onSuccess) {
+                onSuccess();
+            } else {
+                onClose();
+            }
+            return;
+        }
 
         const { error: signInError } = await supabase.auth.signInWithPassword({
             email,

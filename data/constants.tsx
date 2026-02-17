@@ -38,13 +38,13 @@ export const servicesData: ServiceDetail[] = [
     },
     {
         title: "REGULARIZAÇÃO AMBIENTAL",
-        slogan: "LICENCIAMENTO · CTF · ETE/ETA",
-        summary: "Gestão estratégica de conformidade ambiental para indústrias químicas e de bebidas, focada em licenciamentos e sistemas de tratamento.",
+        slogan: "LICENCIAMENTO · QGIS · MODELAGEM",
+        summary: "Gestão estratégica de conformidade ambiental, licenciamentos, modelagens e inteligência geográfica.",
         includes: [
             "Licenciamento Ambiental (LP, LI, LO)",
-            "Cadastro Técnico Federal (CTF - IBAMA)",
-            "Projeto de pequeno porte de ETEs e ETAs",
-            "Estudos de Autodepuração",
+            "Mapas Georreferenciados (QGIS)",
+            "Modelagens Ambientais",
+            "Cadastro Técnico Federal (CTF)",
             "EIA, RIMA & EIV (Estudos de Impacto)"
         ],
         result: "Operação legalizada com sustentabilidade técnica comprovada.",
@@ -81,15 +81,15 @@ export const servicesData: ServiceDetail[] = [
     },
     {
         title: "INTELIGÊNCIA E GESTÃO",
-        slogan: "QGIS · IA · DASHBOARDS",
-        summary: "Engenharia de dados aplicada: dashboards técnicos em tempo real, inteligência geográfica QGIS e automação inteligente de ativos.",
+        slogan: "IA · DASHBOARDS · APPS",
+        summary: "Soluções digitais para engenharia e negócios: dashboards, aplicativos de gestão e inteligência artificial generativa.",
         includes: [
-            "Mapas Georreferenciados com QGIS",
-            "Estudos de Área com QGIS",
-            "Criação de Dashboards Técnicos",
-            "Desenvolvimento de Sites e Apps com IA"
+            "Dashboards Técnicos e Gerenciais",
+            "Sites e Aplicativos com IA",
+            "Apps de Gerenciamento de Negócios",
+            "Uso de IA para Imagens e Textos"
         ],
-        result: "Clareza total na tomada de decisão baseada em inteligência técnica.",
+        result: "Clareza total na tomada de decisão e automação de processos.",
         cta: "Digitalizar Gestão",
         icon: <Cpu className="w-5 h-5" />
     }

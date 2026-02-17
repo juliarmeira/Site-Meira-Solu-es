@@ -13,7 +13,8 @@ const Footer: React.FC = () => {
                     </div>
                     <p className="text-white/60 text-[11px] font-black tracking-[0.5em] uppercase text-center md:text-left">
                         © 2026 • ANDRADAS - MG <br />
-                        ENGENHARIA QUÍMICA E AMBIENTAL
+                        ENGENHARIA QUÍMICA E AMBIENTAL <br />
+                        <span className="opacity-40 text-[9px] mt-2 block">v{__APP_VERSION__} • {__BUILD_DATE__}</span>
                     </p>
                 </div>
                 <div className="flex gap-12 text-white/50 text-[11px] font-black uppercase tracking-widest">

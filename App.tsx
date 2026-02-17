@@ -133,7 +133,7 @@ const AppContent: React.FC = () => {
   }
 
   return (
-    <div className={`min-h-screen ${isContactPage ? 'bg-[#fcfcfc]' : 'bg-meira-dark'} text-meira-soft-white selection:bg-meira-accent selection:text-meira-dark font-sans overflow-x-hidden transition-colors duration-500`}>
+    <div className={`min-h-screen bg-meira-dark text-meira-soft-white selection:bg-meira-accent selection:text-meira-dark font-sans overflow-x-hidden transition-colors duration-500`}>
       {!isContactPage && !isDashboard && <Navbar setShowLogin={setShowLogin} />}
 
       {showLogin && <LoginModal onClose={() => setShowLogin(false)} onSuccess={handleLoginSuccess} />}
