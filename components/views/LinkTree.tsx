@@ -68,9 +68,11 @@ const LinkTreeView: React.FC = () => {
                         <span className="font-light opacity-80">SOLUÇÕES</span>
                     </h1>
                     <div className="space-y-3">
-                        <p className="font-black text-[12px] tracking-[0.3em] uppercase text-meira-accent">
-                            REGULARIZAÇÃO DE ALAMBIQUES E BEBIDAS
-                        </p>
+                        <div className="inline-block bg-meira-accent/20 px-4 py-2 rounded-lg">
+                            <p className="font-black text-[12px] tracking-[0.2em] uppercase text-meira-deep">
+                                REGULARIZAÇÃO DE ALAMBIQUES E BEBIDAS
+                            </p>
+                        </div>
                         <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-meira-deep text-white">
                             <LogoIcon className="w-4 h-4" />
                             <span className="font-bold text-[9px] tracking-[0.3em] uppercase">
@@ -101,7 +103,7 @@ const LinkTreeView: React.FC = () => {
                 <LinkCard
                     title="WhatsApp"
                     subtitle="Fale Comigo"
-                    href="https://w.app/solucoesmeira"
+                    href="https://wa.me/5519999896901?text=Ol%C3%A1%20Meira!"
                     icon={Phone}
                 />
                 <LinkCard
