@@ -99,36 +99,36 @@ export const pillars = [
     {
         id: "01",
         title: "DIAGNÓSTICO",
-        subtitle: "Análise da Realidade",
-        description: "Mapeamento completo da operação, riscos e oportunidades do seu negócio.",
+        subtitle: "Leitura da Realidade",
+        description: "Mapeamos a operação 'chão de fábrica': infraestrutura, processos e gargalos, identificando o que já funciona e o que precisa de ajuste técnico.",
         icon: <Search size={20} />
     },
     {
         id: "02",
         title: "LEGISLAÇÃO",
-        subtitle: "Confronto Normativo",
-        description: "Análise das exigências MAPA, ambientais e de produtos controlados.",
+        subtitle: "Filtro Regulatório",
+        description: "Cruzamos o cenário real do seu negócio com as exigências do MAPA e órgãos ambientais, traduzindo a lei para a sua prática.",
         icon: <Shield size={20} />
     },
     {
         id: "03",
         title: "ENQUADRAMENTO",
-        subtitle: "Adequação Técnica",
-        description: "Definição do caminho regulatório ideal para sua operação.",
+        subtitle: "Estratégia de Viabilidade",
+        description: "Definimos o caminho regulatório mais seguro e econômico, desenhando uma solução que caiba no orçamento e na estrutura do produtor.",
         icon: <Layers size={20} />
     },
     {
         id: "04",
         title: "PROJETO",
         subtitle: "Engenharia Aplicada",
-        description: "Desenvolvimento de plantas, processos e documentação técnica.",
+        description: "Transformamos a estratégia em documentos técnicos: plantas, manuais de BPF, POPs e memoriais descritivos prontos para aprovação.",
         icon: <DraftingCompass size={20} />
     },
     {
         id: "05",
         title: "ENTREGA",
-        subtitle: "Regularização Final",
-        description: "Acompanhamento até a obtenção de licenças e registros.",
+        subtitle: "Conformidade Oficial",
+        description: "Gestão do processo junto aos órgãos fiscalizadores, com defesa técnica ativa até a emissão do registro ou licença.",
         icon: <FileCheck size={20} />
     }
 ];
