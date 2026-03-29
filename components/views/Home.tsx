@@ -18,13 +18,6 @@ const HomeView: React.FC<HomeViewProps> = ({ expandedService, setExpandedService
         setExpandedService(expandedService === index ? null : index);
     };
 
-    const scrollToRegularization = () => {
-        const element = document.getElementById('regularizacao');
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
     return (
         <div className="space-y-32 pb-20">
             {/* HERO */}

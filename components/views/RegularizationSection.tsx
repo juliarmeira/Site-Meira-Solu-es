@@ -3,8 +3,6 @@ import {
     AlertTriangle,
     CheckCircle2,
     Factory,
-    FlaskConical,
-    FileText,
     ShieldCheck,
     Scale,
     AlertOctagon,
@@ -12,55 +10,69 @@ import {
     DollarSign,
     Globe
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+
+const RISKS_DATA = [
+    {
+        title: "Perda Patrimonial",
+        description: "Em uma fiscalização, todo o estoque irregular é apreendido e destruído. O prejuízo de uma safra inteira pode ocorrer em uma única tarde.",
+        icon: <Ban size={24} />
+    },
+    {
+        title: "Multas Pesadas",
+        description: "As autuações do MAPA são calculadas sobre o valor da produção e reincidência, podendo inviabilizar o negócio.",
+        icon: <DollarSign size={24} />
+    },
+    {
+        title: "Responsabilidade Criminal",
+        description: "Produzir alimentos/bebidas sem registro é crime contra a saúde pública. O CPF do proprietário responde, não apenas o CNPJ.",
+        icon: <AlertOctagon size={24} />
+    },
+    {
+        title: "Barreira Comercial",
+        description: "Você fica restrito à venda 'porta a porta'. Supermercados, empórios sérios e exportadores não compram produto sem registro.",
+        icon: <Ban size={24} />
+    }
+];
+
+const BENEFITS_DATA = [
+    {
+        title: "Acesso Livre ao Mercado",
+        description: "Seu produto pode entrar em grandes redes de supermercados, restaurantes renomados e marketplaces online.",
+        icon: <Globe size={24} />
+    },
+    {
+        title: "Valorização da Marca",
+        description: "O registro permite rotulagem correta, uso de termos como 'Premium', 'Envelhecida' e acesso a concursos de qualidade.",
+        icon: <CheckCircle2 size={24} />
+    },
+    {
+        title: "Segurança Jurídica",
+        description: "Você dorme tranquilo, sabendo que sua operação segue as normas da IN 72/2018 e do Decreto 6.871/2009.",
+        icon: <ShieldCheck size={24} />
+    },
+    {
+        title: "Exportação",
+        description: "O primeiro passo para vender em Dólar ou Euro é ter o dever de casa feito no Brasil.",
+        icon: <Factory size={24} />
+    }
+];
+
+const REQUIRED_ENTITIES = [
+    { l: "Produtor", d: "Quem efetivamente fabrica (fermenta, destila, macera)." },
+    { l: "Padronizador", d: "Quem faz blends, filtra ou ajusta teor alcoólico." },
+    { l: "Engarrafador", d: "Quem apenas envasa a bebida." },
+    { l: "Atacadista", d: "Quem armazena e distribui (revende)." },
+    { l: "Importador e Exportador", d: "Comércio internacional." }
+];
+
+const METHOD_STEPS = [
+    { title: "Adequação da Planta", desc: "Ajuste de layout e fluxo lógico." },
+    { title: "Documentação Técnica", desc: "Elaboração de Manual BPF, POPs e Memoriais." },
+    { title: "Análises Laboratoriais", desc: "Laudos de potabilidade e conformidade (PIQ)." },
+    { title: "Responsabilidade Técnica", desc: "Assinamos a ART e acompanhamos a vistoria." }
+];
 
 const RegularizationSection: React.FC = () => {
-    const risks = [
-        {
-            title: "Perda Patrimonial",
-            description: "Em uma fiscalização, todo o estoque irregular é apreendido e destruído. O prejuízo de uma safra inteira pode ocorrer em uma única tarde.",
-            icon: <Ban size={24} />
-        },
-        {
-            title: "Multas Pesadas",
-            description: "As autuações do MAPA são calculadas sobre o valor da produção e reincidência, podendo inviabilizar o negócio.",
-            icon: <DollarSign size={24} />
-        },
-        {
-            title: "Responsabilidade Criminal",
-            description: "Produzir alimentos/bebidas sem registro é crime contra a saúde pública. O CPF do proprietário responde, não apenas o CNPJ.",
-            icon: <AlertOctagon size={24} />
-        },
-        {
-            title: "Barreira Comercial",
-            description: "Você fica restrito à venda 'porta a porta'. Supermercados, empórios sérios e exportadores não compram produto sem registro.",
-            icon: <Ban size={24} />
-        }
-    ];
-
-    const benefits = [
-        {
-            title: "Acesso Livre ao Mercado",
-            description: "Seu produto pode entrar em grandes redes de supermercados, restaurantes renomados e marketplaces online.",
-            icon: <Globe size={24} />
-        },
-        {
-            title: "Valorização da Marca",
-            description: "O registro permite rotulagem correta, uso de termos como 'Premium', 'Envelhecida' e acesso a concursos de qualidade.",
-            icon: <CheckCircle2 size={24} />
-        },
-        {
-            title: "Segurança Jurídica",
-            description: "Você dorme tranquilo, sabendo que sua operação segue as normas da IN 72/2018 e do Decreto 6.871/2009.",
-            icon: <ShieldCheck size={24} />
-        },
-        {
-            title: "Exportação",
-            description: "O primeiro passo para vender em Dólar ou Euro é ter o dever de casa feito no Brasil.",
-            icon: <Factory size={24} />
-        }
-    ];
-
     return (
         <section id="regularizacao" className="py-24 relative overflow-hidden">
             <div className="max-w-6xl mx-auto space-y-24 px-6 md:px-0">
@@ -83,7 +95,7 @@ const RegularizationSection: React.FC = () => {
                 {/* Risks vs Benefits Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 relative">
                     {/* Divider Line */}
-                    <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent transfor -translate-x-1/2" />
+                    <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent transform -translate-x-1/2" />
 
                     {/* Risks Column */}
                     <div className="space-y-12">
@@ -94,7 +106,7 @@ const RegularizationSection: React.FC = () => {
                             <h3 className="text-2xl font-light text-white uppercase">Operar na <span className="font-bold text-red-400">Clandestinidade</span></h3>
                         </div>
                         <div className="space-y-6">
-                            {risks.map((item, i) => (
+                            {RISKS_DATA.map((item, i) => (
                                 <div key={i} className="group relative bg-red-900/[0.05] border border-red-500/10 p-6 rounded-2xl hover:bg-red-900/10 hover:border-red-500/30 transition-all duration-300">
                                     <div className="flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-right md:flex-row-reverse">
                                         <div className="p-3 bg-red-500/10 rounded-xl text-red-400 group-hover:scale-110 transition-transform">
@@ -119,7 +131,7 @@ const RegularizationSection: React.FC = () => {
                             <h3 className="text-2xl font-light text-white uppercase">Operar com <span className="font-bold text-meira-accent">Segurança</span></h3>
                         </div>
                         <div className="space-y-6">
-                            {benefits.map((item, i) => (
+                            {BENEFITS_DATA.map((item, i) => (
                                 <div key={i} className="group relative bg-meira-accent/[0.02] border border-meira-accent/10 p-6 rounded-2xl hover:bg-meira-accent/[0.05] hover:border-meira-accent/30 transition-all duration-300">
                                     <div className="flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left">
                                         <div className="p-3 bg-meira-accent/10 rounded-xl text-meira-accent group-hover:scale-110 transition-transform">
@@ -148,13 +160,7 @@ const RegularizationSection: React.FC = () => {
                             <p className="text-white/60 text-sm">Se o seu negócio realiza qualquer uma das atividades abaixo, o registro é mandatório:</p>
                         </div>
                         <ul className="space-y-4">
-                            {[
-                                { l: "Produtor", d: "Quem efetivamente fabrica (fermenta, destila, macera)." },
-                                { l: "Padronizador", d: "Quem faz blends, filtra ou ajusta teor alcoólico." },
-                                { l: "Engarrafador", d: "Quem apenas envasa a bebida." },
-                                { l: "Atacadista", d: "Quem armazena e distribui (revende)." },
-                                { l: "Importador e Exportador", d: "Comércio internacional." }
-                            ].map((item, i) => (
+                            {REQUIRED_ENTITIES.map((item, i) => (
                                 <li key={i} className="flex items-start gap-3 text-sm text-white/80 border-b border-white/5 pb-3 last:border-0 last:pb-0">
                                     <span className="w-1.5 h-1.5 rounded-full bg-meira-accent mt-2 shrink-0" />
                                     <span>
@@ -177,12 +183,7 @@ const RegularizationSection: React.FC = () => {
                         </div>
 
                         <div className="space-y-4">
-                            {[
-                                { title: "Adequação da Planta", desc: "Ajuste de layout e fluxo lógico." },
-                                { title: "Documentação Técnica", desc: "Elaboração de Manual BPF, POPs e Memoriais." },
-                                { title: "Análises Laboratoriais", desc: "Laudos de potabilidade e conformidade (PIQ)." },
-                                { title: "Responsabilidade Técnica", desc: "Assinamos a ART e acompanhamos a vistoria." }
-                            ].map((step, i) => (
+                            {METHOD_STEPS.map((step, i) => (
                                 <div key={i} className="flex items-center gap-4 bg-meira-accent/[0.05] p-4 rounded-xl border border-meira-accent/10">
                                     <div className="w-8 h-8 rounded-full bg-meira-accent text-meira-dark flex items-center justify-center font-black text-xs shrink-0">
                                         {i + 1}

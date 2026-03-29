@@ -13,6 +13,7 @@ import DashboardView from './components/views/Dashboard';
 import SystemSelectionView from './components/views/SystemSelection';
 import ClientesView from './components/views/ClientesView';
 import PotabilidadeView from './components/views/PotabilidadeView';
+import CurriculumPage from './components/views/CurriculumPage';
 
 // Internal Area Components
 import {
@@ -39,6 +40,7 @@ const AppContent: React.FC = () => {
   const isSystemSelection = location.pathname === '/sistemas';
   const isClientes = location.pathname === '/clientes';
   const isPotabilidade = location.pathname === '/potabilidade';
+  const isCurriculum = location.pathname === '/curriculo';
   const isProtectedArea = isInternalArea || isSystemSelection || isClientes || isPotabilidade;
 
   useEffect(() => {
@@ -71,6 +73,15 @@ const AppContent: React.FC = () => {
             </ProtectedRoute>
           }
         />
+      </Routes>
+    );
+  }
+
+  // Render curriculum page
+  if (isCurriculum) {
+    return (
+      <Routes>
+        <Route path="/curriculo" element={<CurriculumPage />} />
       </Routes>
     );
   }
