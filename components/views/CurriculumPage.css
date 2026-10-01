@@ -1,0 +1,70 @@
+.cv-view { background: #eef0f2; color: #24303a; padding: 24px 20px 48px; font-family: Arial, Helvetica, sans-serif; letter-spacing: normal; }
+.cv-toolbar { max-width: 210mm; margin: 0 auto 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 13px; }
+.cv-toolbar a { color: #45545f; text-decoration: none; }
+.cv-toolbar button { background: #243a46; color: white; border: 0; border-radius: 4px; padding: 11px 18px; cursor: pointer; font: inherit; }
+.cv-toolbar button:hover { background: #375563; }
+.cv-toolbar button:focus-visible, .cv-toolbar a:focus-visible { outline: 2px solid #527c90; outline-offset: 4px; }
+.cv-document { max-width: 210mm; margin: auto; }
+.cv-page { background: white; padding: 16mm; min-height: 297mm; box-sizing: border-box; display: flex; flex-direction: column; box-shadow: 0 6px 28px #24303a12; font-size: 10.5pt; line-height: 1.5; }
+.cv-page + .cv-page { margin-top: 24px; }
+.cv-header { border-top: 3px solid #355765; border-bottom: 1px solid #cbd3d7; padding: 18px 0 20px; margin-bottom: 23px; }
+.cv-eyebrow { color: #526b77; font-size: 9pt; text-transform: uppercase; letter-spacing: .16em; margin: 0 0 10px; }
+.cv-header h1 { font-size: 30pt; line-height: 1.15; font-weight: 700; letter-spacing: -.04em; margin: 0 0 8px; color: #1e303b; }
+.cv-subtitle { font-size: 12pt; margin: 0 0 14px; }
+.cv-contact { display: flex; flex-wrap: wrap; gap: 5px 20px; font-size: 9pt; font-style: normal; color: #52616c; }
+.cv-contact a { color: inherit; text-decoration: none; overflow-wrap: anywhere; }
+.cv-contact a:hover { text-decoration: underline; }
+.cv-document h2 { color: #355765; font-size: 10pt; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; border-bottom: 1px solid #dce2e5; padding-bottom: 7px; margin: 0 0 15px; }
+.cv-document h3 { font-size: 10.5pt; line-height: 1.4; font-weight: 700; margin: 0 0 4px; color: #24303a; }
+.cv-document p { margin: 0; }
+.cv-profile { margin-bottom: 24px; }
+.cv-profile p + p { margin-top: 8px; }
+.cv-courses > div { margin-bottom: 8px; break-inside: avoid; }
+.cv-courses p { color: #586873; font-size: 9pt; }
+.cv-entry { margin-bottom: 20px; break-inside: avoid; page-break-inside: avoid; }
+.cv-role { display: flex; justify-content: space-between; align-items: baseline; gap: 8px 18px; font-size: 9pt; color: #586873; margin-bottom: 7px; }
+.cv-role strong { font-weight: 400; }
+.cv-role span { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.cv-entry ul { padding-left: 17px; margin: 0; list-style: disc; }
+.cv-entry li { margin: 3px 0; padding-left: 2px; }
+.cv-page-footer { margin-top: auto; padding-top: 20px; display: flex; justify-content: space-between; color: #73808a; font-size: 8pt; }
+.cv-continuation { display: flex; justify-content: space-between; gap: 14px; border-top: 2px solid #355765; padding: 10px 0 18px; font-size: 9pt; color: #52616c; }
+.cv-continuation span:first-child { font-weight: 700; color: #24303a; }
+.cv-muted { font-weight: 400; letter-spacing: normal; text-transform: none; color: #73808a; }
+.cv-section { margin-top: 12px; }
+.cv-knowledge { margin: 0; }
+.cv-knowledge div { margin-bottom: 10px; break-inside: avoid; }
+.cv-knowledge dt { font-weight: 700; font-size: 10pt; }
+.cv-knowledge dd { margin: 2px 0 0; }
+@media screen and (max-width: 640px) {
+  .cv-view { padding: 16px 10px 28px; }
+  .cv-toolbar { font-size: 12px; }
+  .cv-toolbar button { padding: 10px 12px; }
+  .cv-page { padding: 25px 22px; min-height: auto; }
+  .cv-header h1 { font-size: 27pt; }
+  .cv-role { flex-direction: column; gap: 3px; }
+  .cv-continuation { flex-direction: column; gap: 3px; }
+  .cv-page-footer { margin-top: 24px; }
+}
+@page { size: A4 portrait; margin: 14mm 16mm; }
+@media print {
+  html:has(body.curriculum-active), body.curriculum-active, body.curriculum-active #root, body.curriculum-active #root > div, body.curriculum-active #root > div > main { background: white !important; color: #24303a !important; overflow: visible !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; }
+  .cv-view { background: white; padding: 0; }
+  .cv-toolbar { display: none; }
+  .cv-document { max-width: none; margin: 0; }
+  .cv-page { padding: 0; min-height: 260mm; box-shadow: none; font-size: 10pt; line-height: 1.4; }
+  .cv-page + .cv-page { margin: 0; break-before: page; page-break-before: always; }
+  .cv-header { padding-top: 14px; margin-bottom: 20px; }
+  .cv-entry { margin-bottom: 12px; }
+  .cv-courses > div { margin-bottom: 6px; }
+  .cv-document h2 { margin-bottom: 9px; padding-bottom: 5px; font-size: 9pt; }
+  .cv-document h3 { font-size: 10pt; }
+  .cv-role { font-size: 9pt; margin-bottom: 4px; }
+  .cv-knowledge dt { font-size: 10pt; }
+  .cv-knowledge div { margin-bottom: 6px; }
+  .cv-section { margin-top: 8px; }
+  .cv-document h2 { break-after: avoid; page-break-after: avoid; }
+  .cv-document p, .cv-document li { orphans: 3; widows: 3; }
+  .cv-section { break-inside: avoid; page-break-inside: avoid; }
+  .cv-page-footer { padding-top: 12px; }
+}
