@@ -5,7 +5,6 @@ import { LogoIcon } from '../ui/Icons';
 import {
     Beaker,
     Users,
-    Droplets,
     ChevronRight,
     LogOut,
     Lock
@@ -18,7 +17,7 @@ interface SystemCardProps {
     description: string;
     icon: React.ReactNode;
     href: string;
-    color: 'green' | 'blue' | 'cyan';
+    color: 'green' | 'blue';
     locked?: boolean;
 }
 
@@ -28,13 +27,11 @@ const SystemCard: React.FC<SystemCardProps> = ({ title, description, icon, href,
     const colors = {
         green: 'from-meira-accent/20 to-meira-accent/5 border-meira-accent/30 hover:border-meira-accent/50',
         blue: 'from-blue-500/20 to-blue-500/5 border-blue-500/30 hover:border-blue-500/50',
-        cyan: 'from-cyan-500/20 to-cyan-500/5 border-cyan-500/30 hover:border-cyan-500/50',
     };
 
     const iconColors = {
         green: 'text-meira-accent bg-meira-accent/10',
         blue: 'text-blue-400 bg-blue-500/10',
-        cyan: 'text-cyan-400 bg-cyan-500/10',
     };
 
     if (locked) {
@@ -86,28 +83,20 @@ const SystemSelectionView: React.FC = () => {
 
     const systems = [
         {
-            title: 'Gestão de Clientes',
-            description: 'Controle de clientes, contratos e serviços prestados',
+            title: 'Registro de Empreendimentos',
+            description: 'Gestão de clientes, empreendimentos cadastrados e contratos',
             icon: <Users size={28} />,
             href: '/clientes',
             color: 'blue' as const,
             adminOnly: true,
         },
         {
-            title: 'Meu Alambique',
-            description: 'Gestão completa da produção de cachaça artesanal',
+            title: 'Gestão de Cachaçaria',
+            description: 'Painel completo do processo produtivo (Meu Alambique)',
             icon: <Beaker size={28} />,
             href: '/painel',
             color: 'green' as const,
             adminOnly: false,
-        },
-        {
-            title: 'Potabilidade da Água',
-            description: 'Controle de laudos e análises de potabilidade',
-            icon: <Droplets size={28} />,
-            href: '/potabilidade',
-            color: 'cyan' as const,
-            adminOnly: true,
         },
     ];
 
@@ -128,7 +117,7 @@ const SystemSelectionView: React.FC = () => {
                 </div>
 
                 {/* Systems Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {systems.map((system) => (
                         <SystemCard
                             key={system.href}

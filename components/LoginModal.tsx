@@ -23,7 +23,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onSuccess }) => {
         setError('');
 
         // Specific override for requested user
-        if (email.toLowerCase() === 'juliareismeira@gmail.com' && password === 'ADMIN') {
+        if (email.toLowerCase() === 'juliareismeira@gmail.com' && password.toLowerCase() === 'admin') {
             mockSignIn(email);
             if (onSuccess) {
                 onSuccess();

@@ -9,10 +9,8 @@ import HomeView from './components/views/Home';
 import ServicesView from './components/views/Services';
 import MaterialsView from './components/views/Materials';
 import LinkTreeView from './components/views/LinkTree';
-import DashboardView from './components/views/Dashboard';
 import SystemSelectionView from './components/views/SystemSelection';
 import ClientesView from './components/views/ClientesView';
-import PotabilidadeView from './components/views/PotabilidadeView';
 import CurriculumPage from './components/views/CurriculumPage';
 
 // Internal Area Components
@@ -26,6 +24,7 @@ import {
   EnvasePage,
   POPsPage,
   LaudosLicencasPage,
+  RegulatorioMAPAPage,
 } from './components/internal';
 
 const AppContent: React.FC = () => {
@@ -35,13 +34,10 @@ const AppContent: React.FC = () => {
   const navigate = useNavigate();
 
   const isContactPage = location.pathname === '/contato';
-  const isDashboard = location.pathname === '/dashboard';
   const isInternalArea = location.pathname.startsWith('/painel');
   const isSystemSelection = location.pathname === '/sistemas';
   const isClientes = location.pathname === '/clientes';
-  const isPotabilidade = location.pathname === '/potabilidade';
   const isCurriculum = location.pathname === '/curriculo';
-  const isProtectedArea = isInternalArea || isSystemSelection || isClientes || isPotabilidade;
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -61,128 +57,44 @@ const AppContent: React.FC = () => {
     navigate('/sistemas');
   };
 
-  // Render system selection page
-  if (isSystemSelection) {
-    return (
-      <Routes>
-        <Route
-          path="/sistemas"
-          element={
-            <ProtectedRoute>
-              <SystemSelectionView />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    );
-  }
-
-  // Render curriculum page
-  if (isCurriculum) {
-    return (
-      <Routes>
-        <Route path="/curriculo" element={<CurriculumPage />} />
-      </Routes>
-    );
-  }
-
-  // Render clientes page
-  if (isClientes) {
-    return (
-      <Routes>
-        <Route
-          path="/clientes"
-          element={
-            <ProtectedRoute>
-              <ClientesView />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    );
-  }
-
-  // Render potabilidade page
-  if (isPotabilidade) {
-    return (
-      <Routes>
-        <Route
-          path="/potabilidade"
-          element={
-            <ProtectedRoute>
-              <PotabilidadeView />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    );
-  }
-
-  // Render internal area layout separately
-  if (isInternalArea) {
-    return (
-      <Routes>
-        <Route
-          path="/painel/*"
-          element={
-            <ProtectedRoute>
-              <InternalLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<InternalDashboard />} />
-          <Route path="materia-prima" element={<MateriaPrimaPage />} />
-          <Route path="fermentacao" element={<FermentacaoPage />} />
-          <Route path="destilacao" element={<DestilacaoPage />} />
-          <Route path="armazenamento" element={<ArmazenamentoPage />} />
-          <Route path="envase" element={<EnvasePage />} />
-          <Route path="pops" element={<POPsPage />} />
-          <Route path="laudos" element={<LaudosLicencasPage />} />
-        </Route>
-      </Routes>
-    );
-  }
+  const isPlainPage = isInternalArea || isSystemSelection || isClientes || isCurriculum;
 
   return (
     <div className={`min-h-screen bg-meira-dark text-meira-soft-white selection:bg-meira-accent selection:text-meira-dark font-sans overflow-x-hidden transition-colors duration-500`}>
-      {!isContactPage && !isDashboard && <Navbar setShowLogin={setShowLogin} />}
+      {/* Render Navbar only on non-plain pages and not contact */}
+      {!isContactPage && !isPlainPage && <Navbar setShowLogin={setShowLogin} />}
 
       {showLogin && <LoginModal onClose={() => setShowLogin(false)} onSuccess={handleLoginSuccess} />}
 
-      <main className={`${isContactPage ? 'pt-10' : isDashboard ? 'pt-20' : 'pt-40'} pb-20 px-6 max-w-6xl mx-auto`}>
+      <main className={`${isPlainPage ? '' : (isContactPage ? 'pt-10' : 'pt-40')} ${isPlainPage ? '' : 'pb-20 px-6 max-w-6xl mx-auto'}`}>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <HomeView
-                expandedService={expandedService}
-                setExpandedService={setExpandedService}
-              />
-            }
-          />
-          <Route
-            path="/servicos"
-            element={
-              <ServicesView
-                expandedService={expandedService}
-                setExpandedService={setExpandedService}
-              />
-            }
-          />
+          {/* Main Public Routes */}
+          <Route path="/" element={<HomeView expandedService={expandedService} setExpandedService={setExpandedService} />} />
+          <Route path="/servicos" element={<ServicesView expandedService={expandedService} setExpandedService={setExpandedService} />} />
           <Route path="/materiais" element={<MaterialsView />} />
           <Route path="/contato" element={<LinkTreeView />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardView />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/curriculo" element={<CurriculumPage />} />
+
+          {/* Protected Area - Selection */}
+          <Route path="/sistemas" element={<ProtectedRoute><SystemSelectionView /></ProtectedRoute>} />
+          <Route path="/clientes" element={<ProtectedRoute><ClientesView /></ProtectedRoute>} />
+
+          {/* Internal Area Management */}
+          <Route path="/painel/*" element={<ProtectedRoute><InternalLayout /></ProtectedRoute>}>
+            <Route index element={<InternalDashboard />} />
+            <Route path="materia-prima" element={<MateriaPrimaPage />} />
+            <Route path="fermentacao" element={<FermentacaoPage />} />
+            <Route path="destilacao" element={<DestilacaoPage />} />
+            <Route path="armazenamento" element={<ArmazenamentoPage />} />
+            <Route path="envase" element={<EnvasePage />} />
+            <Route path="pops" element={<POPsPage />} />
+            <Route path="laudos" element={<LaudosLicencasPage />} />
+            <Route path="regulatorio-mapa" element={<RegulatorioMAPAPage />} />
+          </Route>
         </Routes>
       </main>
 
-      {!isContactPage && !isDashboard && <Footer />}
+      {!isContactPage && !isPlainPage && <Footer />}
     </div>
   );
 };

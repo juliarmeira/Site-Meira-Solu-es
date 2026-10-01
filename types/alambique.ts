@@ -19,8 +19,9 @@ export interface ControleMateriaPrima {
     user_id: string;
     data_hora_corte: string;
     data_hora_moagem: string;
-    tempo_espera_minutos?: number; // Calculado automaticamente
+    tempo_espera_minutos?: number;
     id_talhao: string;
+    peso_cana_kg?: number;
     volume_caldo_litros: number;
     brix_original: number;
     volume_agua_litros: number;

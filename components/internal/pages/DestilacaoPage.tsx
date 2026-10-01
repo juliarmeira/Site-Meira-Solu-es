@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../../supabase';
 import { useAuth } from '../../../contexts/AuthContext';
-import { Flame } from 'lucide-react';
+import { Flame, Info, Percent, Beaker, Scissors, Zap } from 'lucide-react';
 import { FormContainer, FormField, DataTable, PageHeader } from '../FormComponents';
 import type { ControleDestilacao } from '../../../types/alambique';
 
@@ -45,6 +45,24 @@ const DestilacaoPage: React.FC = () => {
         setTableLoading(false);
     };
 
+    const volumeVinho = parseFloat(form.volume_vinho_litros) || 0;
+    const teorVinho = parseFloat(form.teor_alcoolico_vinho) || 0;
+
+    // Theoretical volume of distillate (crude)
+    // Formula: (Volume Vinho * Teor Alcohol Vinho) / Average Output GL (~40-45%)
+    const volumeTeoricoBruto = (volumeVinho * teorVinho) / 40;
+
+    // Suggested cuts based on theoretical volume
+    const sugCabeca = volumeTeoricoBruto * 0.05;
+    const sugCoracao = volumeTeoricoBruto * 0.80;
+    const sugCauda = volumeTeoricoBruto * 0.15;
+
+    const volumeRealTotal = (parseFloat(form.volume_cabeca_litros) || 0) +
+                          (parseFloat(form.volume_coracao_litros) || 0) +
+                          (parseFloat(form.volume_cauda_litros) || 0);
+
+    const eficiencia = volumeTeoricoBruto > 0 ? (volumeRealTotal / volumeTeoricoBruto * 100) : 0;
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!user) return;
@@ -56,20 +74,20 @@ const DestilacaoPage: React.FC = () => {
             user_id: user.id,
             id_alambique: form.id_alambique,
             data_destilacao: form.data_destilacao,
-            volume_vinho_litros: parseFloat(form.volume_vinho_litros as string),
-            teor_alcoolico_vinho: parseFloat(form.teor_alcoolico_vinho as string),
-            volume_cabeca_litros: parseFloat(form.volume_cabeca_litros as string),
-            volume_coracao_litros: parseFloat(form.volume_coracao_litros as string),
-            volume_cauda_litros: parseFloat(form.volume_cauda_litros as string),
-            graduacao_coracao_gl: parseFloat(form.graduacao_coracao_gl as string),
+            volume_vinho_litros: parseFloat(form.volume_vinho_litros),
+            teor_alcoolico_vinho: parseFloat(form.teor_alcoolico_vinho),
+            volume_cabeca_litros: parseFloat(form.volume_cabeca_litros),
+            volume_coracao_litros: parseFloat(form.volume_coracao_litros),
+            volume_cauda_litros: parseFloat(form.volume_cauda_litros),
+            graduacao_coracao_gl: parseFloat(form.graduacao_coracao_gl),
             limpeza_previa_cobre: form.limpeza_previa_cobre,
             observacoes: form.observacoes || null,
         });
 
         if (error) {
-            setMessage({ type: 'error', text: 'Erro ao salvar registro. Tente novamente.' });
+            setMessage({ type: 'error', text: 'Erro ao salvar destilação. Verifique os dados.' });
         } else {
-            setMessage({ type: 'success', text: 'Registro salvo com sucesso!' });
+            setMessage({ type: 'success', text: 'Destilação registrada com sucesso!' });
             setForm({
                 id_alambique: '',
                 data_destilacao: '',
@@ -90,190 +108,223 @@ const DestilacaoPage: React.FC = () => {
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Tem certeza que deseja excluir este registro?')) return;
-
-        const { error } = await supabase
-            .from('controle_destilacao')
-            .delete()
-            .eq('id', id);
-
-        if (!error) {
-            setRecords(records.filter(r => r.id !== id));
-        }
+        if (!confirm('Excluir este registro?')) return;
+        const { error } = await supabase.from('controle_destilacao').delete().eq('id', id);
+        if (!error) setRecords(records.filter(r => r.id !== id));
     };
 
-    // Calculate rendimento
-    const volumeTotal = (parseFloat(form.volume_cabeca_litros as string) || 0) +
-        (parseFloat(form.volume_coracao_litros as string) || 0) +
-        (parseFloat(form.volume_cauda_litros as string) || 0);
-    const volumeVinho = parseFloat(form.volume_vinho_litros as string) || 0;
-    const rendimento = volumeVinho > 0 ? ((parseFloat(form.volume_coracao_litros as string) || 0) / volumeVinho * 100) : 0;
-
-    const columns = [
-        { key: 'data_destilacao', label: 'Data', format: (v: string) => new Date(v).toLocaleDateString('pt-BR') },
-        { key: 'id_alambique', label: 'Alambique' },
-        { key: 'volume_vinho_litros', label: 'Vinho (L)', format: (v: number) => `${v}L` },
-        { key: 'volume_coracao_litros', label: 'Coração (L)', format: (v: number) => `${v}L` },
-        { key: 'graduacao_coracao_gl', label: 'GL', format: (v: number) => `${v}%` },
-        { key: 'limpeza_previa_cobre', label: 'Limpeza', format: (v: boolean) => v ? '✓' : '✗' },
-    ];
-
     return (
-        <div className="max-w-4xl space-y-8">
+        <div className="space-y-10 pb-20">
             <PageHeader
-                title="Controle de Destilação"
-                subtitle="Registro de cortes e rendimento"
-                icon={<Flame size={24} />}
+                title="Processo de Destilação"
+                subtitle="Controle de cortes, rendimento e eficiência térmica"
+                icon={<Flame />}
             />
 
             {message && (
-                <div className={`p-4 rounded-xl text-sm font-bold ${message.type === 'success'
-                        ? 'bg-green-500/10 border border-green-500/20 text-green-400'
-                        : 'bg-red-500/10 border border-red-500/20 text-red-400'
-                    }`}>
+                <div className={`p-5 rounded-3xl font-bold flex items-center gap-3 animate-in fade-in duration-300 ${
+                    message.type === 'success' ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-red-50 text-red-600 border border-red-100'
+                }`}>
+                    <Info size={18} />
                     {message.text}
                 </div>
             )}
 
-            <FormContainer
-                title="Novo Registro"
-                subtitle="Preencha os dados da destilação"
-                onSubmit={handleSubmit}
-                loading={loading}
-            >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <FormField
-                        label="ID do Alambique"
-                        type="text"
-                        value={form.id_alambique}
-                        onChange={(v) => setForm({ ...form, id_alambique: v })}
-                        placeholder="Ex: ALB-001"
-                        required
-                    />
-                    <FormField
-                        label="Data da Destilação"
-                        type="date"
-                        value={form.data_destilacao}
-                        onChange={(v) => setForm({ ...form, data_destilacao: v })}
-                        required
-                    />
-                </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2">
+                    <FormContainer
+                        title="Nova Alambicada"
+                        subtitle="Determine os volumes teórico e real"
+                        onSubmit={handleSubmit}
+                        loading={loading}
+                        submitLabel="Registrar Destilação"
+                    >
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <FormField
+                                label="Equipamento"
+                                type="text"
+                                value={form.id_alambique}
+                                onChange={(v) => setForm({ ...form, id_alambique: v })}
+                                placeholder="ex: Alambique de Cobre #1"
+                                required
+                            />
+                            <FormField
+                                label="Data da Queima"
+                                type="date"
+                                value={form.data_destilacao}
+                                onChange={(v) => setForm({ ...form, data_destilacao: v })}
+                                required
+                            />
+                        </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <FormField
-                        label="Volume de Vinho Carregado"
-                        type="number"
-                        value={form.volume_vinho_litros}
-                        onChange={(v) => setForm({ ...form, volume_vinho_litros: v })}
-                        placeholder="0.00"
-                        suffix="L"
-                        min={0}
-                        step={0.1}
-                        required
-                    />
-                    <FormField
-                        label="Teor Alcoólico do Vinho"
-                        type="number"
-                        value={form.teor_alcoolico_vinho}
-                        onChange={(v) => setForm({ ...form, teor_alcoolico_vinho: v })}
-                        placeholder="0.0"
-                        suffix="% GL"
-                        min={0}
-                        max={20}
-                        step={0.1}
-                        required
-                    />
-                </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <FormField
+                                label="Vinho Carregado"
+                                type="number"
+                                value={form.volume_vinho_litros}
+                                onChange={(v) => setForm({ ...form, volume_vinho_litros: v })}
+                                placeholder="0"
+                                suffix="L"
+                                required
+                                info="Volume total de vinho colocado na panela do alambique."
+                            />
+                            <FormField
+                                label="Força do Vinho"
+                                type="number"
+                                value={form.teor_alcoolico_vinho}
+                                onChange={(v) => setForm({ ...form, teor_alcoolico_vinho: v })}
+                                placeholder="0.0"
+                                suffix="% GL"
+                                required
+                                info="Teor alcoólico do vinho fermentado (geralmente entre 7% e 12%)."
+                            />
+                        </div>
 
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 space-y-4">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">Cortes da Destilação</p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                        <FormField
-                            label="Volume Cabeça"
-                            type="number"
-                            value={form.volume_cabeca_litros}
-                            onChange={(v) => setForm({ ...form, volume_cabeca_litros: v })}
-                            placeholder="0.00"
-                            suffix="L"
-                            min={0}
-                            step={0.1}
-                            required
-                        />
-                        <FormField
-                            label="Volume Coração"
-                            type="number"
-                            value={form.volume_coracao_litros}
-                            onChange={(v) => setForm({ ...form, volume_coracao_litros: v })}
-                            placeholder="0.00"
-                            suffix="L"
-                            min={0}
-                            step={0.1}
-                            required
-                        />
-                        <FormField
-                            label="Volume Cauda"
-                            type="number"
-                            value={form.volume_cauda_litros}
-                            onChange={(v) => setForm({ ...form, volume_cauda_litros: v })}
-                            placeholder="0.00"
-                            suffix="L"
-                            min={0}
-                            step={0.1}
-                            required
-                        />
-                    </div>
-                    {volumeTotal > 0 && (
-                        <div className="grid grid-cols-2 gap-4 pt-2">
-                            <div className="p-3 rounded-lg bg-orange-500/10 border border-orange-500/20">
-                                <p className="text-[9px] font-bold uppercase tracking-widest text-orange-400/70">Volume Total</p>
-                                <p className="text-xl font-bold text-orange-400">{volumeTotal.toFixed(2)}L</p>
+                        <div className="p-8 rounded-[2.5rem] bg-slate-50 border border-slate-100 space-y-8">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2 text-slate-900 font-extrabold text-xs uppercase tracking-widest">
+                                    <Scissors size={20} className="text-meira-accent" />
+                                    Cortes Reais Colhidos
+                                </div>
+                                {volumeTeoricoBruto > 0 && (
+                                    <div className="text-[10px] font-bold text-slate-400 bg-white px-3 py-1 rounded-full border border-slate-100 shadow-sm">
+                                        Expectativa: {volumeTeoricoBruto.toFixed(1)}L Total
+                                    </div>
+                                )}
                             </div>
-                            <div className="p-3 rounded-lg bg-meira-accent/10 border border-meira-accent/20">
-                                <p className="text-[9px] font-bold uppercase tracking-widest text-meira-accent/70">Rendimento Coração</p>
-                                <p className="text-xl font-bold text-meira-accent">{rendimento.toFixed(1)}%</p>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <FormField
+                                    label="Cabeça (Tóxico)"
+                                    type="number"
+                                    value={form.volume_cabeca_litros}
+                                    onChange={(v) => setForm({ ...form, volume_cabeca_litros: v })}
+                                    placeholder="0.0"
+                                    suffix="L"
+                                    required
+                                    info={`Sugerido: ~${sugCabeca.toFixed(1)}L`}
+                                    error={parseFloat(form.volume_cabeca_litros) > 0 && parseFloat(form.volume_cabeca_litros) < sugCabeca ? "Aviso: Corte de cabeça baixo!" : undefined}
+                                />
+                                <FormField
+                                    label="Coração (Cachaça)"
+                                    type="number"
+                                    value={form.volume_coracao_litros}
+                                    onChange={(v) => setForm({ ...form, volume_coracao_litros: v })}
+                                    placeholder="0.0"
+                                    suffix="L"
+                                    required
+                                    info={`Sugerido: ~${sugCoracao.toFixed(1)}L`}
+                                />
+                                <FormField
+                                    label="Cauda (Vinhoto)"
+                                    type="number"
+                                    value={form.volume_cauda_litros}
+                                    onChange={(v) => setForm({ ...form, volume_cauda_litros: v })}
+                                    placeholder="0.0"
+                                    suffix="L"
+                                    required
+                                    info={`Sugerido: ~${sugCauda.toFixed(1)}L`}
+                                />
                             </div>
                         </div>
-                    )}
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <FormField
+                                label="Graduação do Coração"
+                                type="number"
+                                value={form.graduacao_coracao_gl}
+                                onChange={(v) => setForm({ ...form, graduacao_coracao_gl: v })}
+                                placeholder="0.0"
+                                suffix="% GL"
+                                required
+                                info="Graduação alcoólica da cachaça pura colhida (antes da padronização)."
+                            />
+                            <div className="flex items-center h-full pt-6">
+                                <FormField
+                                    label="Limpeza de Cobre Realizada"
+                                    type="checkbox"
+                                    value={form.limpeza_previa_cobre}
+                                    onChange={(v) => setForm({ ...form, limpeza_previa_cobre: v })}
+                                />
+                            </div>
+                        </div>
+
+                        <FormField
+                            label="Observações"
+                            type="textarea"
+                            value={form.observacoes}
+                            onChange={(v) => setForm({ ...form, observacoes: v })}
+                            placeholder="Alguma anomalia no fogo ou resfriamento?"
+                        />
+                    </FormContainer>
                 </div>
 
-                <FormField
-                    label="Graduação Alcoólica do Coração"
-                    type="number"
-                    value={form.graduacao_coracao_gl}
-                    onChange={(v) => setForm({ ...form, graduacao_coracao_gl: v })}
-                    placeholder="0.0"
-                    suffix="% GL"
-                    min={30}
-                    max={85}
-                    step={0.1}
-                    required
-                />
+                <div className="space-y-6">
+                    <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/50 space-y-6 animate-in slide-in-from-right-4 duration-500">
+                        <h3 className="font-extrabold text-lg text-slate-900 flex items-center gap-2">
+                            <Zap className="text-amber-400" size={20} />
+                            Desempenho
+                        </h3>
 
-                <FormField
-                    label="Limpeza Prévia do Cobre"
-                    type="checkbox"
-                    value={form.limpeza_previa_cobre}
-                    onChange={(v) => setForm({ ...form, limpeza_previa_cobre: v })}
-                />
+                        <div className="space-y-6">
+                            <div className="p-6 rounded-[2rem] bg-slate-50 border border-slate-100 flex flex-col items-center">
+                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">Eficiência do Alambique</p>
+                                <div className="relative w-24 h-24 flex items-center justify-center">
+                                    <svg className="w-full h-full transform -rotate-90">
+                                        <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-slate-200" />
+                                        <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-meira-accent" strokeDasharray={251.2} strokeDashoffset={251.2 * (1 - (eficiencia / 100))} strokeLinecap="round" />
+                                    </svg>
+                                    <span className="absolute font-black text-xl text-slate-900">{eficiencia.toFixed(0)}%</span>
+                                </div>
+                            </div>
 
-                <FormField
-                    label="Observações"
-                    type="textarea"
-                    value={form.observacoes}
-                    onChange={(v) => setForm({ ...form, observacoes: v })}
-                    placeholder="Anotações adicionais..."
-                />
-            </FormContainer>
+                            <p className="text-[11px] text-slate-400 leading-relaxed font-medium text-center">
+                                {eficiencia > 90 ? "✨ Excelente extração de álcool." : eficiencia > 70 ? "✅ Dentro do esperado." : "⚠️ Verifique vazamentos de vapor."}
+                            </p>
+                        </div>
+                    </div>
 
-            <div className="space-y-4">
-                <h2 className="text-[11px] font-bold uppercase tracking-widest text-white/40 px-1">
-                    Histórico de Registros
+                    <div className="bg-indigo-900 p-8 rounded-[2.5rem] text-white space-y-6 shadow-2xl shadow-indigo-200/40">
+                        <div className="flex items-center gap-2 text-indigo-300">
+                            <Scissors size={20} />
+                            <h4 className="font-bold text-xs uppercase tracking-widest leading-none">Guia de Cortes</h4>
+                        </div>
+                        <div className="space-y-4">
+                            <div className="flex items-center justify-between text-xs">
+                                <span className="text-indigo-200">Cabeça (5-10%)</span>
+                                <span className="font-bold text-red-300">{sugCabeca.toFixed(1)}L</span>
+                            </div>
+                            <div className="flex items-center justify-between text-xs">
+                                <span className="text-indigo-200">Coração (~80%)</span>
+                                <span className="font-bold text-green-300">{sugCoracao.toFixed(1)}L</span>
+                            </div>
+                            <div className="flex items-center justify-between text-xs">
+                                <span className="text-indigo-200">Cauda (10-15%)</span>
+                                <span className="font-bold text-amber-300">{sugCauda.toFixed(1)}L</span>
+                            </div>
+                        </div>
+                        <p className="text-[10px] text-indigo-300 italic opacity-60">
+                            *Valores baseados no rendimento teórico de 1L destilado bruto a cada 4L de vinho.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="space-y-6">
+                <h2 className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-slate-400 px-4">
+                    Histórico de Produção
                 </h2>
                 <DataTable
-                    columns={columns}
+                    columns={[
+                        { key: 'data_destilacao', label: 'Data', format: (v) => new Date(v).toLocaleDateString('pt-BR') },
+                        { key: 'id_alambique', label: 'Alambique' },
+                        { key: 'volume_vinho_litros', label: 'Vinho (L)', format: (v) => `${v}L` },
+                        { key: 'volume_coracao_litros', label: 'Coração', format: (v) => <span className="text-meira-accent font-bold">{v}L</span> },
+                        { key: 'graduacao_coracao_gl', label: 'Força Coração', format: (v) => <span className="font-bold">{v}%</span> },
+                    ]}
                     data={records}
                     loading={tableLoading}
-                    emptyMessage="Nenhum registro de destilação"
+                    emptyMessage="Nenhuma destilação registrada"
                     onDelete={handleDelete}
                 />
             </div>

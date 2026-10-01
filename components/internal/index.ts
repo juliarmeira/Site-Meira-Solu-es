@@ -11,3 +11,4 @@ export { default as ArmazenamentoPage } from './pages/ArmazenamentoPage';
 export { default as EnvasePage } from './pages/EnvasePage';
 export { default as POPsPage } from './pages/POPsPage';
 export { default as LaudosLicencasPage } from './pages/LaudosLicencasPage';
+export { RegulatorioMAPAPage } from './pages/RegulatorioMAPAPage';

@@ -8,9 +8,24 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+.venv/
+__pycache__/
+.pytest_cache/
+data/raw/
+data/reports/
+data/*.backup-*
 dist
 dist-ssr
 *.local
+.env
+.env.*
+!.env.example
+data/*.db
+data/*.db-*
+Arquivo/
+tmp/
+curriculum-*.png
+curriculum-print.pdf
 
 # Editor directories and files
 .vscode/*
